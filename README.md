@@ -9,6 +9,10 @@
 5) Pattern - pip install pattern
 6) Sklearn - pip install sklearn
 
+# Command for running code
+
+python execute.py
+
 # OUTPUT
 
 ![alt text](https://github.com/shubham16394/WeCP_Task/blob/master/output.JPG)
