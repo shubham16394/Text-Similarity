@@ -13,13 +13,8 @@ def tokenize_text(text):
     tokens = nltk.word_tokenize(text) 
     tokens = [token.strip() for token in tokens]
     return tokens
-    
-
-
-# Annotate text tokens with POS tags
-def pos_tag_text(text):
-    
-    def penn_to_wn_tags(pos_tag):
+   
+def penn_to_wn_tags(pos_tag):
         if pos_tag.startswith('J'):
             return wn.ADJ
         elif pos_tag.startswith('V'):
@@ -30,6 +25,9 @@ def pos_tag_text(text):
             return wn.ADV
         else:
             return None
+
+# Annotate text tokens with POS tags
+def pos_tag_text(text):
     
     tagged_text = tag(text)
     tagged_lower_text = [(word.lower(), penn_to_wn_tags(pos_tag))

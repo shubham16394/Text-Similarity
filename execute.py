@@ -3,6 +3,7 @@ from normalization import normalize_corpus
 from utils import build_feature_matrix
 from bm25 import compute_corpus_term_idfs
 from bm25 import compute_bm25_similarity
+from semantic_similarity import sentence_similarity
 import numpy as np
 
 
@@ -35,13 +36,18 @@ def run():
 	corpus_term_idfs = compute_corpus_term_idfs(corpus_features, norm_corpus)
 	                 
 	for index, doc in enumerate(model_answer):
-	    
+
 	    doc_features = model_answer_features[index]
 	    bm25_scores = compute_bm25_similarity(doc_features,corpus_features,doc_lengths,avg_dl,corpus_term_idfs,k1=1.5, b=0.75)
+	    semantic_similarity_scores=[]
+	    for sentence in answers:
+	    	score=(sentence_similarity(sentence,model_answer[0])+sentence_similarity(model_answer[0],sentence))/2
+	    	semantic_similarity_scores.append(score)
 	    print 'Model Answer',':', doc
 	    print '-'*40 
 	    doc_index=0
-	    for sim_score in bm25_scores:
+	    for score_tuple in zip(semantic_similarity_scores,bm25_scores):
+	    	sim_score=((score_tuple[0]*10)+score_tuple[1])/2
 	    	if(sim_score<1):
 	    		sim_score=0
 	    	elif(1<=sim_score<=2):	
